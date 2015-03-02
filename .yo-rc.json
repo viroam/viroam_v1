@@ -1,0 +1,11 @@
+{
+  "generator-angular-famous-ionic": {
+    "appname": "viroamV1",
+    "clientFolder": "client",
+    "ionic": true,
+    "famous": true,
+    "ngCordova": true,
+    "fontawesome": true,
+    "bootstrap": false
+  }
+}
