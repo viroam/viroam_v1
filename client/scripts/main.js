@@ -3,14 +3,20 @@
 var namespace = 'main';
 
 var angular = require('angular');
+require('kinvey-angular');
 var app = angular.module(namespace, [
+	'kinvey'
     // inject:modules start
     // inject:modules end
 ]);
 
-var runDeps = ['$window'];
-var run = function($window) {
-    
+var runDeps = ['$window', '$kinvey'];
+var run = function($window, $kinvey) {
+
+    $kinvey.init({
+        appKey: 'kid_WJa8jZzb3',
+        appSecret: 'a69bedf4cb034fc08a5c0f8321f557fe'
+    });
 };
 
 run.$inject = runDeps;

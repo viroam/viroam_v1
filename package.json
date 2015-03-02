@@ -6,7 +6,8 @@
     "postinstall": "bower install && node ./bin/protractor-fix-version.js"
   },
   "dependencies": {
-    "famous-polyfills": "^0.3.0"
+    "famous-polyfills": "^0.3.0",
+    "gulp": "^3.8.11"
   },
   "devDependencies": {
     "brfs": "1.2.0",
@@ -101,7 +102,8 @@
     "famous": "./bower_components/famous/dist/famous-global.js",
     "famous-angular": "./bower_components/famous-angular/dist/famous-angular.js",
     "ngCordova": "./bower_components/ngCordova/dist/ng-cordova.js",
-    "ngCordovaMocks": "./bower_components/ngCordova/dist/ng-cordova-mocks.js"
+    "ngCordovaMocks": "./bower_components/ngCordova/dist/ng-cordova-mocks.js",
+    "kinvey-angular": "./bower_components/kinvey/kinvey-angular.js"
   },
   "browserify": {
     "transform": [
@@ -116,6 +118,11 @@
   "browserify-shim": {
     "angular": {
       "exports": "angular"
+    },
+    "kinvey-angular": {
+      "depends": [
+        "angular"
+      ]
     },
     "angular-mocks": {
       "exports": "angular",
