@@ -5,7 +5,7 @@ var namespace = 'main';
 var angular = require('angular');
 require('kinvey-angular');
 var app = angular.module(namespace, [
-	'kinvey'
+	'kinvey',
     // inject:modules start
     require('./map')(namespace).name
     // inject:modules end

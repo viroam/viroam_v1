@@ -18,7 +18,7 @@ module.exports = function(namespace) {
     app.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
             $urlRouterProvider.otherwise('/');
-            $stateProvider.state('home', {
+            $stateProvider.state('map', {
                 url: '/',
                 template: require('./views/home.html')
             });
