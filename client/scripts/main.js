@@ -7,6 +7,7 @@ require('kinvey-angular');
 var app = angular.module(namespace, [
 	'kinvey'
     // inject:modules start
+    require('./map')(namespace).name
     // inject:modules end
 ]);
 
