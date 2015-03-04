@@ -1,1 +1,16 @@
-<div>Map</div>
+<section class="map-view">
+    <header class="header">
+        Viroam {{vm.city}}
+    </header>
+    <script type="text/ng-template" id="searchbox.tpl.html">
+        <input type="text" placeholder="Type your adress">
+    </script>
+    <ui-gmap-google-map center='vm.map.center' zoom='vm.map.zoom' options='vm.map.options' events="vm.map.events">
+        <ui-gmap-search-box template='vm.searchbox.template' events='vm.searchbox.events'>
+        </ui-gmap-search-box>
+        <ui-gmap-circle center="vm.circle.center" radius="vm.circle.radius" fill="vm.circle.fill" stroke="vm.circle.stroke" events="vm.circle.events" visible="vm.circle.visible">
+        </ui-gmap-circle>
+    </ui-gmap-google-map>
+    <img src="images/icon-pink.png" alt="" id="fixedmarker">
+    <div ng-class="{button: vm.buttonstatus=='visible'}">{{vm.collocsvisible.length}}</div>
+</section>
