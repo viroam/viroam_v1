@@ -38,10 +38,16 @@ module.exports = function(app) {
             return aparts;
         };
 
+        var getAllApartments = function() {
+            var promise = $kinvey.DataStore.find('apartments');
+            return promise;
+        };
+
         return {
             createApartment: createApartment,
             deleteApartment: deleteApartment,
-            locateApartments: locateApartments
+            locateApartments: locateApartments,
+            getAllApartments: getAllApartments
         };
 
     }

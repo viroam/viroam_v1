@@ -3,10 +3,10 @@ var controllername = 'mapCtrl';
 
 module.exports = function(app) {
     /*jshint validthis: true */
+    var databroker = require('../../databroker')(app.name.split('.')[0]).name;
+    var deps = [databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout'];
 
-    var deps = ['uiGmapGoogleMapApi', '$scope', '$timeout'];
-
-    function controller(uiGmapGoogleMapApi, $scope, $timeout) {
+    function controller(apartments, uiGmapGoogleMapApi, $scope, $timeout) {
 
         var vm = this;
         vm.map = {
@@ -30,6 +30,12 @@ module.exports = function(app) {
                         longitude: map.center.lng()
                     };
                     vm.currentcenter = [vm.circle.center.longitude, vm.circle.center.latitude];
+                    var aparts = apartments.locateApartments(vm.currentcenter[0], vm.currentcenter[1], vm.circle.radius / 1609.344);
+                    aparts.then(function(response) {
+                        vm.number = response.length;
+                    }, function(error) {
+                        console.log(error.description);
+                    });
                 },
                 dragstart: function(map) {
                     vm.buttonstatus = 'invisible';
@@ -70,77 +76,67 @@ module.exports = function(app) {
             events: {}
         };
 
-        vm.collocs = [{
-            name: 'colloc_1',
-            idKey: 'colloc_1',
-            coords: {
-                longitude: -0.198931,
-                latitude: 51.515985
-            }
-        }, {
-            name: 'colloc_2',
-            idKey: 'colloc_2',
-            coords: {
-                longitude: -0.189318,
-                latitude: 51.534995
-            }
-        }, {
-            name: 'colloc_3',
-            idKey: 'colloc_3',
-            coords: {
-                longitude: -0.112585,
-                latitude: 51.546206
-            }
-        }, {
-            name: 'colloc_4',
-            idKey: 'colloc_4',
-            coords: {
-                longitude: -0.114302,
-                latitude: 51.515771
-            }
-        }, {
-            name: 'colloc_5',
-            idKey: 'colloc_5',
-            coords: {
-                longitude: -0.129408,
-                latitude: 51.494722
-            }
-        }, {
-            name: 'colloc_6',
-            idKey: 'colloc_6',
-            coords: {
-                longitude: -0.052847,
-                latitude: 51.534675
-            }
-        }, {
-            name: 'colloc_7',
-            idKey: 'colloc_7',
-            coords: {
-                longitude: -0.090612,
-                latitude: 51.495790
-            }
-        }, {
-            name: 'colloc_8',
-            idKey: 'colloc_8',
-            coords: {
-                longitude: -0.110525,
-                latitude: 51.507545
-            }
-        }, {
-            name: 'colloc_9',
-            idKey: 'colloc_9',
-            coords: {
-                longitude: -0.091642,
-                latitude: 51.487026
-            }
-        }, {
-            name: 'colloc_10',
-            idKey: 'colloc_10',
-            coords: {
-                longitude: -0.156187,
-                latitude: 51.480612
-            }
-        }];
+        // vm.markers = [{
+        //     id: 1,
+        //     coords: {
+        //         longitude: -0.232748,
+        //         latitude: 51.529710
+        //     }
+        // }, {
+        //     id: 2,
+        //     coords: {
+        //         longitude: -0.199789,
+        //         latitude: 51.536544
+        //     }
+        // }, {
+        //     id: 3,
+        //     coords: {
+        //         longitude: -0.091986,
+        //         latitude: 51.533981
+        //     }
+        // }, {
+        //     id: 4,
+        //     coords: {
+        //         longitude: -0.060400,
+        //         latitude: 51.493386
+        //     }
+        // }, {
+        //     id: 5,
+        //     coords: {
+        //         longitude: -0.143484,
+        //         latitude: 51.474572
+        //     }
+        // }, {
+        //     id: 6,
+        //     coords: {
+        //         longitude: -0.027441,
+        //         latitude: 51.567712
+        //     }
+        // }, {
+        //     id: 7,
+        //     coords: {
+        //         longitude: 0.004831,
+        //         latitude: 51.482269
+        //     }
+        // }, {
+        //     id: 8,
+        //     coords: {
+        //         longitude: -0.099539,
+        //         latitude: 51.503645
+        //     }
+        // }, {
+        //     id: 9,
+        //     coords: {
+        //         longitude: -0.217642,
+        //         latitude: 51.492103
+        //     }
+        // }, {
+        //     id: 10,
+        //     coords: {
+        //         longitude: 0.134607,
+        //         latitude: 51.640212
+        //     }
+        // }];
 
         // uiGmapGoogleMapApi.then(function(maps) {
         //     vm.myLatlng = new google.maps.LatLng(51.523729, -0.098852);
@@ -153,9 +149,23 @@ module.exports = function(app) {
 
         //     // console.log(maps.getCenter());
         // });
-
-        vm.collocsvisible = [];
-
+        var apartsPromise = apartments.getAllApartments();
+        apartsPromise.then(function(response) {
+            var collocsVisible = response;
+            vm.coordsArray = [];
+            for(var i = 0; i < collocsVisible.length; i++) {
+                var coordsTemp = {
+                    coords: {
+                        latitude: collocsVisible[i]._geoloc[1],
+                        longitude: collocsVisible[i]._geoloc[0]
+                    },
+                    id: collocsVisible[i]._id
+                };
+                vm.coordsArray.push(coordsTemp);
+            }
+        }, function(error) {
+            console.log(error.description);
+        });
     }
 
     controller.$inject = deps;
