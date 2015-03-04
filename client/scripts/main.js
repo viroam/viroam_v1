@@ -21,9 +21,9 @@ var run = function($window, $kinvey, $state) {
     }).then(function() {
         if(!$kinvey.getActiveUser()) {
             $kinvey.User.login('Username', 'Password');
-            $state.go('home');
+            $state.go('apartment');
         } else {
-            $state.go('home');
+            $state.go('apartment');
         }
     });
 };

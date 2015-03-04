@@ -23,8 +23,8 @@ module.exports = function(namespace) {
             $stateProvider.state('login', {
                 url: '/',
                 template: require('./views/login.html')
-            }).state('home', {
-                url: '/home',
+            }).state('apartment', {
+                url: '/apartment',
                 template: require('./views/apartment.html'),
                 controller:fullname + '.apartmentsCtrl',
                 controllerAs:'vm'

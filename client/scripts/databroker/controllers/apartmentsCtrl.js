@@ -9,51 +9,6 @@ module.exports = function(app) {
     function controller(apartments, $kinvey) {
         var vm = this;
         vm.message = 'Hello World';
-
-        // var promise = $kinvey.ping();
-        // promise.then(function(response) {
-        //     console.log('Kinvey Ping Success. Kinvey Service is alive, version: ' + response.version + ', response: ' + response.kinvey);
-        // }, function(error) {
-        //     console.log('Kinvey Ping Failed. Response: ' + error.description);
-        // });
-
-        // apartments.createApartment(0, 10, 12);
-        // apartments.createApartment(1, 30, 13);
-        // apartments.deleteApartment(0);
-        // //apartments.deleteApartment(2);
-
-        // for(var i = 3; i < 10; i++) {
-        //     apartments.createApartment(i, 40, 10 + (i - 3) * 0.1);
-        // }
-
-        // for(var j = 10; j < 16; j++) {
-        //     apartments.createApartment(j, 40 + (j - 10) * 0.1, 10);
-        // }
-
-        // apartments.deleteApartment(1);
-
-        // vm.aparts = apartments.locateApartments(40,10,2);//tableau?
-        // for (var k = 0; k < aparts.length; k++) {
-        //     console.log(aparts[k]);
-        // }
-        var aparte10 = $kinvey.DataStore.get('apartments', '10');
-        aparte10.then(function(response) {
-            console.log('succés, aparte10:');
-            console.log(aparte10._id);
-            console.log('response');
-            console.log(response._id);
-            console.log(response._geoloc);
-        }, function(error) {
-            console.log('error: ' + error.description);
-        });
-
-        // promiseAparte.then(function(response) {
-        //     console.log('Aparte 10 trouvé, response: ' + response);
-        //     //console.log(promiseAparte.$$state);
-        //     vm.aparte0 = promiseAparte;
-        // }, function(error) {
-        //     console.log('Aparte 10 pas trouvé, error: ' + error.description);
-        // });
     }
 
     controller.$inject = deps;
