@@ -1,6 +1,6 @@
 <section class="map-view">
     <header class="header">
-        Viroam {{vm.city}}
+        Viroam
     </header>
     <script type="text/ng-template" id="searchbox.tpl.html">
         <input type="text" placeholder="Type your adress">
@@ -10,7 +10,9 @@
         </ui-gmap-search-box>
         <ui-gmap-circle center="vm.circle.center" radius="vm.circle.radius" fill="vm.circle.fill" stroke="vm.circle.stroke" events="vm.circle.events" visible="vm.circle.visible">
         </ui-gmap-circle>
+        <ui-gmap-marker ng-repeat="marker in vm.coordsArray" idKey="marker.id" coords="marker.coords">
+        </ui-gmap-marker>
     </ui-gmap-google-map>
     <img src="images/icon-pink.png" alt="" id="fixedmarker">
-    <div ng-class="{button: vm.buttonstatus=='visible'}">{{vm.collocsvisible.length}}</div>
+    <div ng-class="{button: vm.buttonstatus=='visible'}">{{vm.number}}</div>
 </section>

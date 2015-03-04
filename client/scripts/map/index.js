@@ -12,7 +12,16 @@ module.exports = function(namespace) {
     var fullname = namespace + '.' + modulename;
 
     var angular = require('angular');
-    var app = angular.module(fullname, ['kinvey', 'ui.router', 'ionic', 'famous.angular', 'ngCordova', 'uiGmapgoogle-maps']);
+    var databroker = require('../databroker')(namespace);
+    var app = angular.module(fullname, [
+        'kinvey',
+        'ui.router',
+        'ionic',
+        'famous.angular',
+        'ngCordova',
+        'uiGmapgoogle-maps',
+        databroker.name
+    ]);
     // inject:folders start
     require('./controllers')(app);
     // inject:folders end
@@ -28,7 +37,7 @@ module.exports = function(namespace) {
 
             $urlRouterProvider.otherwise('/');
             $stateProvider.state('map', {
-                url: '/',
+                url: '/map',
                 template: require('./views/map.html'),
                 controller: fullname + '.mapCtrl',
                 controllerAs: 'vm'
