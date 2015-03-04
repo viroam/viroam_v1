@@ -34,7 +34,6 @@ module.exports = function(app) {
                     aparts.then(function(response) {
                         vm.number = response.length;
                     }, function(error) {
-                        console.log(error.description);
                     });
                 },
                 dragstart: function(map) {
@@ -75,69 +74,6 @@ module.exports = function(app) {
             visible: true,
             events: {}
         };
-
-        // vm.markers = [{
-        //     id: 1,
-        //     coords: {
-        //         longitude: -0.232748,
-        //         latitude: 51.529710
-        //     }
-        // }, {
-        //     id: 2,
-        //     coords: {
-        //         longitude: -0.199789,
-        //         latitude: 51.536544
-        //     }
-        // }, {
-        //     id: 3,
-        //     coords: {
-        //         longitude: -0.091986,
-        //         latitude: 51.533981
-        //     }
-        // }, {
-        //     id: 4,
-        //     coords: {
-        //         longitude: -0.060400,
-        //         latitude: 51.493386
-        //     }
-        // }, {
-        //     id: 5,
-        //     coords: {
-        //         longitude: -0.143484,
-        //         latitude: 51.474572
-        //     }
-        // }, {
-        //     id: 6,
-        //     coords: {
-        //         longitude: -0.027441,
-        //         latitude: 51.567712
-        //     }
-        // }, {
-        //     id: 7,
-        //     coords: {
-        //         longitude: 0.004831,
-        //         latitude: 51.482269
-        //     }
-        // }, {
-        //     id: 8,
-        //     coords: {
-        //         longitude: -0.099539,
-        //         latitude: 51.503645
-        //     }
-        // }, {
-        //     id: 9,
-        //     coords: {
-        //         longitude: -0.217642,
-        //         latitude: 51.492103
-        //     }
-        // }, {
-        //     id: 10,
-        //     coords: {
-        //         longitude: 0.134607,
-        //         latitude: 51.640212
-        //     }
-        // }];
-
         // uiGmapGoogleMapApi.then(function(maps) {
         //     vm.myLatlng = new google.maps.LatLng(51.523729, -0.098852);
         //     // var cercleoption = {
@@ -164,7 +100,6 @@ module.exports = function(app) {
                 vm.coordsArray.push(coordsTemp);
             }
         }, function(error) {
-            console.log(error.description);
         });
     }
 

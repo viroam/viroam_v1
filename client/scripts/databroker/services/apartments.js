@@ -39,6 +39,7 @@ module.exports = function(app) {
         };
 
         var getAllApartments = function() {
+            //return the promise with all apartments in the collection
             var promise = $kinvey.DataStore.find('apartments');
             return promise;
         };
