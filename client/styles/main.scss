@@ -18,4 +18,41 @@
 .full-width .fa-surface {
     width: 100%
 }
-    
+
+/* CSS DE LA MAP*/
+
+.angular-google-map-container { 
+	height: 400px; 
+}
+
+.gm-style-cc {
+  display: none;
+}
+
+.header {
+	top: 0;
+	left: 0;
+	right: 0;
+	height:60px;
+	background-color: grey;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+	font-size: 30px;
+}
+
+#fixedmarker {
+	position: absolute;
+	left: 48.33%;
+	top:32%;
+}
+
+.button {
+	position: absolute;
+	bottom:100px;
+	left:30px;
+	right: 30px;
+	background-color: red;
+	height:30px;
+	color: #fff;
+}
