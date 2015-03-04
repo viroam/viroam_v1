@@ -26,27 +26,11 @@ module.exports = function(namespace) {
             }).state('apartment', {
                 url: '/apartment',
                 template: require('./views/apartment.html'),
-                controller:fullname + '.apartmentsCtrl',
-                controllerAs:'vm'
+                controller: fullname + '.apartmentsCtrl',
+                controllerAs: 'vm'
             });
         }
     ]);
 
     return app;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

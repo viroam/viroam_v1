@@ -9,28 +9,28 @@ module.exports = function(app) {
         var createApartment = function(id, longitude, latitude) {
             //create an entity in the apartments collection
             var promise = $kinvey.DataStore.save('apartments', {
-            _id  : id,
-            _geoloc : [longitude, latitude]
+                _id: id,
+                _geoloc: [longitude, latitude]
             });
 
             promise.then(function(response) {
-                console.log('apartment succesfully added');
+                //console.log('apartment succesfully added');
             }, function(error) {
-                console.log('error, apartment failed to be added, error :' + error.description);
+                //console.log('error, apartment failed to be added, error :' + error.description);
             });
         };
 
         var deleteApartment = function(id) {
-             //delete an entity in the apartments collection
+            //delete an entity in the apartments collection
             var promise = $kinvey.DataStore.destroy('apartments', id);
             promise.then(function(response) {
-                console.log('apartment succesfully deleted');
+                //console.log('apartment succesfully deleted');
             }, function(error) {
-                console.log('error, apartment failed to be deleted, error :' + error.description);
+                //console.log('error, apartment failed to be deleted, error :' + error.description);
             });
         };
 
-        var locateApartments = function(longitude, latitude, radius) {//radius: in mile
+        var locateApartments = function(longitude, latitude, radius) { //radius: in mile
             //return the promise with the apartments inside the requested circle
             var query = new $kinvey.Query();
             query.near('_geoloc', [longitude, latitude], radius);

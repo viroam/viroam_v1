@@ -4,7 +4,7 @@ require('angular-ionic');
 require('famous-angular');
 require('ngCordova');
 require('angular-google-maps');
-
+require('kinvey-angular');
 var modulename = 'map';
 
 module.exports = function(namespace) {
@@ -12,7 +12,7 @@ module.exports = function(namespace) {
     var fullname = namespace + '.' + modulename;
 
     var angular = require('angular');
-    var app = angular.module(fullname, ['ui.router', 'ionic', 'famous.angular', 'ngCordova', 'uiGmapgoogle-maps']);
+    var app = angular.module(fullname, ['kinvey', 'ui.router', 'ionic', 'famous.angular', 'ngCordova', 'uiGmapgoogle-maps']);
     // inject:folders start
     require('./controllers')(app);
     // inject:folders end

@@ -24,7 +24,7 @@ module.exports = function(app) {
             bounds: {},
             events: {
                 bounds_changed: function(map) {
-                    vm.buttonstatus = "visible";
+                    vm.buttonstatus = 'visible';
                     vm.circle.center = {
                         latitude: map.center.lat(),
                         longitude: map.center.lng()
@@ -32,7 +32,7 @@ module.exports = function(app) {
                     vm.currentcenter = [vm.circle.center.longitude, vm.circle.center.latitude];
                 },
                 dragstart: function(map) {
-                    vm.buttonstatus = "invisible";
+                    vm.buttonstatus = 'invisible';
                 }
             }
         };
@@ -67,8 +67,7 @@ module.exports = function(app) {
                 opacity: 0.5
             },
             visible: true,
-            events: {
-            }
+            events: {}
         };
 
         vm.collocs = [{
@@ -146,9 +145,9 @@ module.exports = function(app) {
         // uiGmapGoogleMapApi.then(function(maps) {
         //     vm.myLatlng = new google.maps.LatLng(51.523729, -0.098852);
         //     // var cercleoption = {
-        //     //     map: maps,  
+        //     //     map: maps,
         //     //     center: myLatlng,
-        //     //     radius: 10000    
+        //     //     radius: 10000
         //     // }
         //     // vm.cityCircle2 = new google.maps.Circle(cercleoption);
 
