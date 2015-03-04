@@ -26,7 +26,7 @@ module.exports = function(namespace) {
             }).state('home', {
                 url: '/home',
                 template: require('./views/apartment.html'),
-                controller:fullname+'.apartmentsCtrl',
+                controller:fullname + '.apartmentsCtrl',
                 controllerAs:'vm'
             });
         }

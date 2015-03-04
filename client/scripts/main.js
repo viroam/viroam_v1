@@ -12,16 +12,20 @@ var app = angular.module(namespace, [
     // inject:modules end
 ]);
 
-var runDeps = ['$window', '$kinvey','$state'];
+var runDeps = ['$window', '$kinvey', '$state'];
 var run = function($window, $kinvey, $state) {
 
     $kinvey.init({
         appKey: 'kid_WJa8jZzb3',
         appSecret: 'a69bedf4cb034fc08a5c0f8321f557fe'
-    }).then(function(){
-    	$state.go('home');
+    }).then(function() {
+        if(!$kinvey.getActiveUser()) {
+            $kinvey.User.login('Username', 'Password');
+            $state.go('home');
+        } else {
+            $state.go('home');
+        }
     });
-    
 };
 
 run.$inject = runDeps;
