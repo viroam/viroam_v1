@@ -1,18 +1,71 @@
-<section class="map-view">
-    <header class="header">
-        Viroam
-    </header>
-    <script type="text/ng-template" id="searchbox.tpl.html">
-        <input type="text" placeholder="Type your adress">
-    </script>
-    <ui-gmap-google-map center='vm.map.center' zoom='vm.map.zoom' options='vm.map.options' events="vm.map.events">
-        <ui-gmap-search-box template='vm.searchbox.template' events='vm.searchbox.events'>
-        </ui-gmap-search-box>
-        <ui-gmap-circle center="vm.circle.center" radius="vm.circle.radius" fill="vm.circle.fill" stroke="vm.circle.stroke" events="vm.circle.events" visible="vm.circle.visible">
-        </ui-gmap-circle>
-        <ui-gmap-marker ng-repeat="marker in vm.coordsArray" idKey="marker.id" coords="marker.coords">
-        </ui-gmap-marker>
-    </ui-gmap-google-map>
-    <img src="images/icon-pink.png" alt="" id="fixedmarker">
-    <div ng-class="{button: vm.buttonstatus=='visible'}">{{vm.number}}</div>
-</section>
+<fa-app id="mainContextMapChatProfile">
+    <fa-modifier fa-translate="vm.mapView.get()">
+        <fa-surface>
+            <header class="header">
+                <button ng-click="vm.goToProfile()">Profile</button>
+                Viroam
+                <button ng-click="vm.goToChat()">Chat</button>
+            </header>
+            <script type="text/ng-template" id="searchbox.tpl.html">
+                <input type="text" placeholder="Type your adress">
+            </script>
+            <ui-gmap-google-map center='vm.map.center' zoom='vm.map.zoom' options='vm.map.options' events="vm.map.events">
+                <ui-gmap-search-box template='vm.searchbox.template' events='vm.searchbox.events'>
+                </ui-gmap-search-box>
+                <ui-gmap-circle center="vm.circle.center" radius="vm.circle.radius" fill="vm.circle.fill" stroke="vm.circle.stroke" events="vm.circle.events" visible="vm.circle.visible">
+                </ui-gmap-circle>
+                <ui-gmap-marker ng-repeat="marker in vm.coordsArray" idKey="marker.id" coords="marker.coords">
+                </ui-gmap-marker>
+            </ui-gmap-google-map>
+            <img src="images/icon-pink.png" alt="" id="fixedmarker">
+            <div ng-class="{button: vm.buttonstatus=='visible'}" ng-click="vm.goToVideo()">{{vm.infoButton}}</div>
+            <div class="range">
+                <input type="range" min="0" max="2000" ng-model="vm.price">
+                £ {{vm.price}} pm
+            </div>
+            <div class="button-radius-more" ng-click="vm.riseRadius()">
+                +
+            </div>
+            <div class="button-radius-less" ng-click="vm.lowRadius()">
+                -
+            </div>
+        </fa-surface>
+    </fa-modifier>
+    <fa-modifier fa-translate="vm.chatView.get()">
+        <fa-surface fa-background-color="'#FC5C4F'">
+            Chat
+            <input id="autocomplete" placeholder="Enter your address"></input>
+            <button ng-click="vm.backToMapFromChat()">Back to map</button>
+        </fa-surface>
+    </fa-modifier>
+    <fa-modifier fa-translate="vm.profileView.get()">
+        <fa-surface fa-background-color="'#009933'">
+            Profile
+            <button ng-click="vm.backToMapFromProfile()">Back to map</button>
+        </fa-surface>
+    </fa-modifier>
+    <fa-modifier ng-repeat="video in vm.videos" fa-translate="video.translate.get()">
+        <fa-surface>
+             <div class="video-responsive">
+                {{video.name}}
+                <button ng-click="vm.backToMapFromVideo()">Back to Map</button>
+            </div>
+        </fa-surface>
+    </fa-modifier>
+    <fa-modifier fa-size="[100, 35]" fa-translate="vm.nextButton.get()">
+        <fa-surface fa-background-color="'#FF0033'" fa-color="'#fff'" fa-click="vm.goToNext()">
+        Next
+        </fa-surface>
+    </fa-modifier>
+    <fa-modifier fa-size="[100, 35]" fa-translate="vm.aboutButton.get()">
+        <fa-surface fa-background-color="'#66CC99'" fa-color="'#fff'">
+        Introduce me
+        </fa-surface>
+    </fa-modifier>
+    <fa-modifier fa-translate="vm.oopsie.get()">
+        <fa-surface fa-background-color="'#999900'">
+            Oopsie !
+            <button ng-click="vm.backToMapFromVideo()">Back to Map</button>
+        </fa-surface>
+    </fa-modifier>
+</fa-app>

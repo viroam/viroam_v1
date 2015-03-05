@@ -4,17 +4,151 @@ var controllername = 'mapCtrl';
 module.exports = function(app) {
     /*jshint validthis: true */
     var databroker = require('../../databroker')(app.name.split('.')[0]).name;
-    var deps = [databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout'];
+    var deps = [databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout', '$famous'];
 
-    function controller(apartments, uiGmapGoogleMapApi, $scope, $timeout) {
-
+    function controller(apartments, uiGmapGoogleMapApi, $scope, $timeout, $famous) {
         var vm = this;
+
+        var Transitionable = $famous['famous/transitions/Transitionable'];
+        var Easing = $famous['famous/transitions/Easing'];
+        vm.mapView = new Transitionable([0, 0, 0]);
+        vm.chatView = new Transitionable([375, 0, 0]);
+        vm.profileView = new Transitionable([-375, 0, 0]);
+        vm.nextButton = new Transitionable([-200, 500, 1000]);
+        vm.aboutButton = new Transitionable([375, 500, 1000]);
+        vm.oopsie = new Transitionable([0, 0, -1000]);
+
+        vm.goToChat = function() {
+            vm.chatView.set([0, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([-375, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.goToVideo = function() {
+            if(vm.videos.length !== 0) {
+                for(var i = 0; i < vm.videos.length; i++) {
+                    vm.videos[i].translate.set([0, i * 675, 2 * i], {
+                        duration: 1000,
+                        curve: 'easeInOut'
+                    });
+                }
+
+                vm.mapView.set([0, -675, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.nextButton.set([50, 500, 1], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.aboutButton.set([230, 500, 1], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            } else {
+                vm.infoButton = 'Pas de vidéos :(';
+            }
+
+        };
+
+        vm.goToNext = function() {
+
+            for(var i = 0; i < vm.videos.length; i++) {
+                vm.videos[i].translate.set([0, (i - 1) * 675, 2 * (i - 1)], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            }
+
+            $timeout(function() {
+                vm.videos.shift();
+            }, 1000);
+
+            // if (vm.videos.length === 0) {
+            //     vm.oopsie = new Transitionable([0, 0, 0]);
+            //     vm.videos[i].translate.set([0, (i - 1) * 675, 2 * (i - 1)], {
+            //         duration: 1000,
+            //         curve: 'easeInOut'
+            //     });
+            // };
+        };
+
+        vm.goToProfile = function() {
+            vm.profileView.set([0, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([375, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.backToMapFromProfile = function() {
+            vm.profileView.set([-375, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([0, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.backToMapFromChat = function() {
+            vm.chatView.set([375, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([0, 0, 0], {
+                duration: 1000,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.backToMapFromVideo = function() {
+            if(vm.videos.length !== 0) {
+                vm.videos[0].translate.set([0, 675, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.mapView.set([0, 0, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.nextButton.set([-200, 500, 1], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.aboutButton.set([375, 500, 1], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            }
+
+            if(vm.videos.length === 0) {
+                vm.oopsie.set([0, 675, -1000], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.mapView.set([0, 0, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            }
+        };
+
         vm.map = {
             center: {
                 latitude: 51.514276,
                 longitude: -0.104860
             },
-            zoom: 8,
+            zoom: 10,
             options: {
                 zoomControl: true,
                 streetViewControl: false,
@@ -33,15 +167,26 @@ module.exports = function(app) {
                     var aparts = apartments.locateApartments(vm.currentcenter[0], vm.currentcenter[1], vm.circle.radius / 1609.344);
                     aparts.then(function(response) {
                         vm.number = response.length;
-                    }, function(error) {
-                    });
+                        vm.infoButton = 'Visualiser les ' + vm.number + ' vidéos';
+                        vm.videos = [];
+                        if(vm.number > 0) {
+                            for(var i = 1; i < vm.number + 1; i++) {
+                                vm.videos.push({
+                                    name: 'Video_' + i,
+                                    translate: new Transitionable([0, i * 675, 2 * i])
+                                });
+                            }
+                        } else {
+                            vm.videos = [];
+                        }
+                    }, function(error) {});
+
                 },
                 dragstart: function(map) {
                     vm.buttonstatus = 'invisible';
                 }
             }
         };
-
         vm.searchbox = {
             template: 'searchbox.tpl.html',
             events: {
@@ -61,7 +206,7 @@ module.exports = function(app) {
                 latitude: 51.523729,
                 longitude: -0.098852
             },
-            radius: 10000,
+            radius: 5000,
             stroke: {
                 color: '#333300',
                 weight: 2,
@@ -74,16 +219,31 @@ module.exports = function(app) {
             visible: true,
             events: {}
         };
-        // uiGmapGoogleMapApi.then(function(maps) {
-        //     vm.myLatlng = new google.maps.LatLng(51.523729, -0.098852);
-        //     // var cercleoption = {
-        //     //     map: maps,
-        //     //     center: myLatlng,
-        //     //     radius: 10000
-        //     // }
-        //     // vm.cityCircle2 = new google.maps.Circle(cercleoption);
 
-        //     // console.log(maps.getCenter());
+        vm.riseRadius = function() {
+            vm.circle.radius = vm.circle.radius + 1000;
+        };
+
+        vm.lowRadius = function() {
+            if(vm.circle.radius > 1000) {
+                vm.circle.radius = vm.circle.radius - 1000;
+            }
+        };
+
+        // uiGmapGoogleMapApi.then(function(maps) {
+        //     function initialize() {
+        //         // Create the autocomplete object, restricting the search
+        //         // to geographical location types.
+        //         var autocomplete;
+        //         autocomplete = new google.maps.places.Autocomplete(
+        //             /** @type {HTMLInputElement} */
+        //             document.getElementById('autocomplete'), {
+        //                 types: ['geocode']
+        //             });
+        //         // When the user selects an address from the dropdown,
+        //         // populate the address fields in the form.
+        //     }
+
         // });
         var apartsPromise = apartments.getAllApartments();
         apartsPromise.then(function(response) {
@@ -99,8 +259,7 @@ module.exports = function(app) {
                 };
                 vm.coordsArray.push(coordsTemp);
             }
-        }, function(error) {
-        });
+        }, function(error) {});
     }
 
     controller.$inject = deps;
