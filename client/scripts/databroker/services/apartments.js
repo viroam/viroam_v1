@@ -6,11 +6,14 @@ module.exports = function(app) {
     var dependencies = ['$kinvey'];
 
     function service($kinvey) {
-        var createApartment = function(id, longitude, latitude) {
+        var createApartment = function(id, longitude, latitude, startDate, endDate, price) {
             //create an entity in the apartments collection
             var promise = $kinvey.DataStore.save('apartments', {
                 _id: id,
-                _geoloc: [longitude, latitude]
+                _geoloc: [longitude, latitude],
+                startDate: startDate,
+                endDate: endDate,
+                price: price
             });
 
             promise.then(function(response) {

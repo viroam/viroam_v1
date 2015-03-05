@@ -8,12 +8,13 @@ var app = angular.module(namespace, [
 	'kinvey',
     // inject:modules start
     require('./databroker')(namespace).name,
-    require('./map')(namespace).name
+        require('./houseProfile')(namespace).name,
+        require('./map')(namespace).name
     // inject:modules end
 ]);
 
-var runDeps = ['$window', '$kinvey', '$state'];
-var run = function($window, $kinvey, $state) {
+var runDeps = ['$window', '$kinvey', '$state', '$rootScope'];
+var run = function($window, $kinvey, $state, $rootScope) {
 
     $kinvey.init({
         appKey: 'kid_WJa8jZzb3',
@@ -21,11 +22,14 @@ var run = function($window, $kinvey, $state) {
     }).then(function() {
         if(!$kinvey.getActiveUser()) {
             $kinvey.User.login('Username', 'Password');
-            $state.go('map');
+            $state.go('houseProfile');
         } else {
-            $state.go('map');
+            $state.go('houseProfile');
         }
     });
+
+    $rootScope.windowWidth = $window.innerWidth;
+    $rootScope.windowHeight = $window.innerHeight;
 };
 
 run.$inject = runDeps;
