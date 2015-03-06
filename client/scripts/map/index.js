@@ -24,6 +24,7 @@ module.exports = function(namespace) {
     ]);
     // inject:folders start
     require('./controllers')(app);
+    require('./services')(app);
     // inject:folders end
 
     app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider',

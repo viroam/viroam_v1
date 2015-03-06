@@ -4,17 +4,167 @@ var controllername = 'mapCtrl';
 module.exports = function(app) {
     /*jshint validthis: true */
     var databroker = require('../../databroker')(app.name.split('.')[0]).name;
-    var deps = [databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout'];
+    var deps = [app.name + '.searchbar', databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout', '$famous', '$rootScope'];
 
-    function controller(apartments, uiGmapGoogleMapApi, $scope, $timeout) {
-
+    function controller(searchbar, apartments, uiGmapGoogleMapApi, $scope, $timeout, $famous, $rootScope) {
         var vm = this;
+
+        vm.windowWidth = $rootScope.windowWidth;
+        vm.windowHeight = $scope.windowHeight;
+
+        var Transitionable = $famous['famous/transitions/Transitionable'];
+        var Easing = $famous['famous/transitions/Easing'];
+        var EventHandler = $famous['famous/core/EventHandler'];
+
+        vm.mapView = new Transitionable([0, 0, 0]);
+        vm.chatView = new Transitionable([vm.windowWidth, 0, 0]);
+        vm.profileView = new Transitionable([-vm.windowWidth, 0, 0]);
+        vm.nextButton = new Transitionable([-vm.windowWidth, 0.80 * vm.windowHeight, 1000]);
+        vm.aboutButton = new Transitionable([1.65 * vm.windowWidth, 0.80 * vm.windowHeight, 1000]);
+
+        vm.myEventHandler = new EventHandler();
+
+        vm.views = [{
+            color: 'red'
+        }, {
+            color: 'blue'
+        }, {
+            color: 'green'
+        }, {
+            color: 'yellow'
+        }];
+
+        vm.chatScrollView = {
+            options: {
+                clipsize: 100,
+                paginated: false,
+                speedLimit: 5,
+                direction: 0
+            }
+        };
+
+        vm.goToChat = function() {
+            vm.chatView.set([0, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([-vm.windowWidth, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.goToVideo = function() {
+            if(vm.videos.length !== 0) {
+                for(var i = 0; i < vm.videos.length; i++) {
+                    vm.videos[i].translate.set([0, i * vm.windowHeight, 2 * i], {
+                        duration: 1000,
+                        curve: 'easeInOut'
+                    });
+                }
+
+                vm.mapView.set([0, -vm.windowHeight, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.nextButton.set([0.10 * vm.windowWidth, 0.80 * vm.windowHeight, 1000], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.aboutButton.set([0.55 * vm.windowWidth, 0.80 * vm.windowHeight, 1000], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            } else {
+                vm.infoButton = 'Pas de vidéos :(';
+            }
+
+        };
+
+        vm.goToNext = function() {
+
+            if(vm.videos.length > 1) {
+                for(var i = 0; i < vm.videos.length; i++) {
+                    vm.videos[i].translate.set([0, (i - 1) * vm.windowHeight, 2 * (i - 1)], {
+                        duration: 1000,
+                        curve: 'easeInOut'
+                    });
+                }
+
+                $timeout(function() {
+                    vm.videos.shift();
+                }, 1000);
+            } else {
+                vm.nextContent = 'No more videos';
+            }
+
+        };
+
+        vm.goToProfile = function() {
+            vm.profileView.set([0, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([vm.windowWidth, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.backToMapFromProfile = function() {
+            vm.profileView.set([-vm.windowWidth, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([0, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.backToMapFromChat = function() {
+            vm.chatView.set([vm.windowWidth, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+            vm.mapView.set([0, 0, 0], {
+                duration: 100,
+                curve: 'easeInOut'
+            });
+        };
+
+        vm.backToMapFromVideo = function() {
+            if(vm.videos.length !== 0) {
+                vm.videos[0].translate.set([0, vm.windowHeight, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.mapView.set([0, 0, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.nextButton.set([-vm.windowWidth, 0.80 * vm.windowHeight, 1], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+                vm.aboutButton.set([1.65 * vm.windowWidth, 0.80 * vm.windowHeight, 1], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            } else {
+                vm.mapView.set([0, 0, 0], {
+                    duration: 1000,
+                    curve: 'easeInOut'
+                });
+            }
+        };
+
         vm.map = {
             center: {
                 latitude: 51.514276,
                 longitude: -0.104860
             },
-            zoom: 8,
+            zoom: 10,
             options: {
                 zoomControl: true,
                 streetViewControl: false,
@@ -33,15 +183,27 @@ module.exports = function(app) {
                     var aparts = apartments.locateApartments(vm.currentcenter[0], vm.currentcenter[1], vm.circle.radius / 1609.344);
                     aparts.then(function(response) {
                         vm.number = response.length;
-                    }, function(error) {
-                    });
+                        vm.infoButton = 'Visualiser les ' + vm.number + ' vidéos';
+                        vm.videos = [];
+                        if(vm.number > 0) {
+                            for(var i = 1; i < vm.number + 1; i++) {
+                                vm.videos.push({
+                                    name: 'Video_' + i,
+                                    translate: new Transitionable([0, i * vm.windowHeight, 2 * i])
+                                });
+                                vm.nextContent = 'Next';
+                            }
+                        } else {
+                            vm.videos = [];
+                        }
+                    }, function(error) {});
+
                 },
                 dragstart: function(map) {
                     vm.buttonstatus = 'invisible';
                 }
             }
         };
-
         vm.searchbox = {
             template: 'searchbox.tpl.html',
             events: {
@@ -61,7 +223,7 @@ module.exports = function(app) {
                 latitude: 51.523729,
                 longitude: -0.098852
             },
-            radius: 10000,
+            radius: 5000,
             stroke: {
                 color: '#333300',
                 weight: 2,
@@ -74,17 +236,16 @@ module.exports = function(app) {
             visible: true,
             events: {}
         };
-        // uiGmapGoogleMapApi.then(function(maps) {
-        //     vm.myLatlng = new google.maps.LatLng(51.523729, -0.098852);
-        //     // var cercleoption = {
-        //     //     map: maps,
-        //     //     center: myLatlng,
-        //     //     radius: 10000
-        //     // }
-        //     // vm.cityCircle2 = new google.maps.Circle(cercleoption);
 
-        //     // console.log(maps.getCenter());
-        // });
+        vm.riseRadius = function() {
+            vm.circle.radius = vm.circle.radius + 1000;
+        };
+
+        vm.lowRadius = function() {
+            if(vm.circle.radius > 1000) {
+                vm.circle.radius = vm.circle.radius - 1000;
+            }
+        };
         var apartsPromise = apartments.getAllApartments();
         apartsPromise.then(function(response) {
             var collocsVisible = response;
@@ -95,14 +256,28 @@ module.exports = function(app) {
                         latitude: collocsVisible[i]._geoloc[1],
                         longitude: collocsVisible[i]._geoloc[0]
                     },
-                    id: collocsVisible[i]._id
+                    id: collocsVisible[i]._id,
+                    price: collocsVisible[i].price
                 };
                 vm.coordsArray.push(coordsTemp);
             }
-        }, function(error) {
-        });
-    }
+        }, function(error) {});
 
+        vm.inputChange = function() {
+            searchbar.getAdresses(vm.inputAddress).then(function(data) {
+                vm.searchbarPredictions = data;
+            }, function(err) {
+            });
+        };
+
+        vm.getDetails = function(placeId) {
+            searchbar.getAdressDetails(placeId).then(function(data) {
+                vm.placeDetails = data;
+            }, function(err) {
+            });
+        };
+
+    }
     controller.$inject = deps;
     app.controller(app.name + '.' + controllername, controller);
 };
