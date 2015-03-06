@@ -25,11 +25,6 @@ module.exports = function(app) {
             lineHeight: vm.windowHeight / 20 + 'px',
             fontWeight: 'bold'
         };
-        // lineHeight: vm.windowHeight / 10 + 'px',
-
-        // vm.color = 'blue';
-
-        // console.log(vm.windowHeight / 20);
         vm.priceStyle = {
             width: vm.windowWidth / 8 + 'px'
         };
@@ -68,8 +63,6 @@ module.exports = function(app) {
             apartments.createApartment(houseIndex, 20, 30, vm.startDate, vm.endDate, vm.price);
             houseIndex++;
         };
-
-        //apartments.createApartment(100, 20, 30, vm.startDate, vm.endDate, vm.price);
     }
 
     controller.$inject = deps;
