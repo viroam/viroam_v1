@@ -4,27 +4,52 @@ var controllername = 'mapCtrl';
 module.exports = function(app) {
     /*jshint validthis: true */
     var databroker = require('../../databroker')(app.name.split('.')[0]).name;
-    var deps = [databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout', '$famous'];
+    var deps = [app.name + '.searchbar', databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout', '$famous', '$rootScope'];
 
-    function controller(apartments, uiGmapGoogleMapApi, $scope, $timeout, $famous) {
+    function controller(searchbar, apartments, uiGmapGoogleMapApi, $scope, $timeout, $famous, $rootScope) {
         var vm = this;
+
+        vm.windowWidth = $rootScope.windowWidth;
+        vm.windowHeight = $scope.windowHeight;
 
         var Transitionable = $famous['famous/transitions/Transitionable'];
         var Easing = $famous['famous/transitions/Easing'];
+        var EventHandler = $famous['famous/core/EventHandler'];
+
         vm.mapView = new Transitionable([0, 0, 0]);
-        vm.chatView = new Transitionable([375, 0, 0]);
-        vm.profileView = new Transitionable([-375, 0, 0]);
-        vm.nextButton = new Transitionable([-200, 500, 1000]);
-        vm.aboutButton = new Transitionable([375, 500, 1000]);
-        vm.oopsie = new Transitionable([0, 0, -1000]);
+        vm.chatView = new Transitionable([vm.windowWidth, 0, 0]);
+        vm.profileView = new Transitionable([-vm.windowWidth, 0, 0]);
+        vm.nextButton = new Transitionable([-vm.windowWidth, 0.80 * vm.windowHeight, 1000]);
+        vm.aboutButton = new Transitionable([1.65 * vm.windowWidth, 0.80 * vm.windowHeight, 1000]);
+
+        vm.myEventHandler = new EventHandler();
+
+        vm.views = [{
+            color: 'red'
+        }, {
+            color: 'blue'
+        }, {
+            color: 'green'
+        }, {
+            color: 'yellow'
+        }];
+
+        vm.chatScrollView = {
+            options: {
+                clipsize: 100,
+                paginated: false,
+                speedLimit: 5,
+                direction: 0
+            }
+        };
 
         vm.goToChat = function() {
             vm.chatView.set([0, 0, 0], {
-                duration: 1000,
+                duration: 100,
                 curve: 'easeInOut'
             });
-            vm.mapView.set([-375, 0, 0], {
-                duration: 1000,
+            vm.mapView.set([-vm.windowWidth, 0, 0], {
+                duration: 100,
                 curve: 'easeInOut'
             });
         };
@@ -32,21 +57,21 @@ module.exports = function(app) {
         vm.goToVideo = function() {
             if(vm.videos.length !== 0) {
                 for(var i = 0; i < vm.videos.length; i++) {
-                    vm.videos[i].translate.set([0, i * 675, 2 * i], {
+                    vm.videos[i].translate.set([0, i * vm.windowHeight, 2 * i], {
                         duration: 1000,
                         curve: 'easeInOut'
                     });
                 }
 
-                vm.mapView.set([0, -675, 0], {
+                vm.mapView.set([0, -vm.windowHeight, 0], {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
-                vm.nextButton.set([50, 500, 1], {
+                vm.nextButton.set([0.10 * vm.windowWidth, 0.80 * vm.windowHeight, 1000], {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
-                vm.aboutButton.set([230, 500, 1], {
+                vm.aboutButton.set([0.55 * vm.windowWidth, 0.80 * vm.windowHeight, 1000], {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
@@ -58,62 +83,59 @@ module.exports = function(app) {
 
         vm.goToNext = function() {
 
-            for(var i = 0; i < vm.videos.length; i++) {
-                vm.videos[i].translate.set([0, (i - 1) * 675, 2 * (i - 1)], {
-                    duration: 1000,
-                    curve: 'easeInOut'
-                });
+            if(vm.videos.length > 1) {
+                for(var i = 0; i < vm.videos.length; i++) {
+                    vm.videos[i].translate.set([0, (i - 1) * vm.windowHeight, 2 * (i - 1)], {
+                        duration: 1000,
+                        curve: 'easeInOut'
+                    });
+                }
+
+                $timeout(function() {
+                    vm.videos.shift();
+                }, 1000);
+            } else {
+                vm.nextContent = 'No more videos';
             }
 
-            $timeout(function() {
-                vm.videos.shift();
-            }, 1000);
-
-            // if (vm.videos.length === 0) {
-            //     vm.oopsie = new Transitionable([0, 0, 0]);
-            //     vm.videos[i].translate.set([0, (i - 1) * 675, 2 * (i - 1)], {
-            //         duration: 1000,
-            //         curve: 'easeInOut'
-            //     });
-            // };
         };
 
         vm.goToProfile = function() {
             vm.profileView.set([0, 0, 0], {
-                duration: 1000,
+                duration: 100,
                 curve: 'easeInOut'
             });
-            vm.mapView.set([375, 0, 0], {
-                duration: 1000,
+            vm.mapView.set([vm.windowWidth, 0, 0], {
+                duration: 100,
                 curve: 'easeInOut'
             });
         };
 
         vm.backToMapFromProfile = function() {
-            vm.profileView.set([-375, 0, 0], {
-                duration: 1000,
+            vm.profileView.set([-vm.windowWidth, 0, 0], {
+                duration: 100,
                 curve: 'easeInOut'
             });
             vm.mapView.set([0, 0, 0], {
-                duration: 1000,
+                duration: 100,
                 curve: 'easeInOut'
             });
         };
 
         vm.backToMapFromChat = function() {
-            vm.chatView.set([375, 0, 0], {
-                duration: 1000,
+            vm.chatView.set([vm.windowWidth, 0, 0], {
+                duration: 100,
                 curve: 'easeInOut'
             });
             vm.mapView.set([0, 0, 0], {
-                duration: 1000,
+                duration: 100,
                 curve: 'easeInOut'
             });
         };
 
         vm.backToMapFromVideo = function() {
             if(vm.videos.length !== 0) {
-                vm.videos[0].translate.set([0, 675, 0], {
+                vm.videos[0].translate.set([0, vm.windowHeight, 0], {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
@@ -121,21 +143,15 @@ module.exports = function(app) {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
-                vm.nextButton.set([-200, 500, 1], {
+                vm.nextButton.set([-vm.windowWidth, 0.80 * vm.windowHeight, 1], {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
-                vm.aboutButton.set([375, 500, 1], {
+                vm.aboutButton.set([1.65 * vm.windowWidth, 0.80 * vm.windowHeight, 1], {
                     duration: 1000,
                     curve: 'easeInOut'
                 });
-            }
-
-            if(vm.videos.length === 0) {
-                vm.oopsie.set([0, 675, -1000], {
-                    duration: 1000,
-                    curve: 'easeInOut'
-                });
+            } else {
                 vm.mapView.set([0, 0, 0], {
                     duration: 1000,
                     curve: 'easeInOut'
@@ -173,8 +189,9 @@ module.exports = function(app) {
                             for(var i = 1; i < vm.number + 1; i++) {
                                 vm.videos.push({
                                     name: 'Video_' + i,
-                                    translate: new Transitionable([0, i * 675, 2 * i])
+                                    translate: new Transitionable([0, i * vm.windowHeight, 2 * i])
                                 });
+                                vm.nextContent = 'Next';
                             }
                         } else {
                             vm.videos = [];
@@ -229,22 +246,6 @@ module.exports = function(app) {
                 vm.circle.radius = vm.circle.radius - 1000;
             }
         };
-
-        // uiGmapGoogleMapApi.then(function(maps) {
-        //     function initialize() {
-        //         // Create the autocomplete object, restricting the search
-        //         // to geographical location types.
-        //         var autocomplete;
-        //         autocomplete = new google.maps.places.Autocomplete(
-        //             /** @type {HTMLInputElement} */
-        //             document.getElementById('autocomplete'), {
-        //                 types: ['geocode']
-        //             });
-        //         // When the user selects an address from the dropdown,
-        //         // populate the address fields in the form.
-        //     }
-
-        // });
         var apartsPromise = apartments.getAllApartments();
         apartsPromise.then(function(response) {
             var collocsVisible = response;
@@ -255,13 +256,28 @@ module.exports = function(app) {
                         latitude: collocsVisible[i]._geoloc[1],
                         longitude: collocsVisible[i]._geoloc[0]
                     },
-                    id: collocsVisible[i]._id
+                    id: collocsVisible[i]._id,
+                    price: collocsVisible[i].price
                 };
                 vm.coordsArray.push(coordsTemp);
             }
         }, function(error) {});
-    }
 
+        vm.inputChange = function() {
+            searchbar.getAdresses(vm.inputAddress).then(function(data) {
+                vm.searchbarPredictions = data;
+            }, function(err) {
+            });
+        };
+
+        vm.getDetails = function(placeId) {
+            searchbar.getAdressDetails(placeId).then(function(data) {
+                vm.placeDetails = data;
+            }, function(err) {
+            });
+        };
+
+    }
     controller.$inject = deps;
     app.controller(app.name + '.' + controllername, controller);
 };

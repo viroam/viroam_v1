@@ -32,15 +32,26 @@
         </fa-surface>
     </fa-modifier>
     <fa-modifier fa-translate="vm.chatView.get()">
-        <fa-surface fa-background-color="'#FC5C4F'">
-            Chat
-            <input id="autocomplete" placeholder="Enter your address"></input>
-            <button ng-click="vm.backToMapFromChat()">Back to map</button>
-        </fa-surface>
+        <fa-scroll-view fa-pipe-from="vm.myEventHandler" fa-options="vm.chatScrollView.options">
+            <fa-view ng-repeat="view in vm.views">
+                <fa-modifier fa-size="[undefined,200]">
+                    <fa-surface fa-background-color="view.color" fa-pipe-to="vm.myEventHandler">
+                        Chat
+                        <button ng-click="vm.backToMapFromChat()">Back to map</button>
+                    </fa-surface>
+                </fa-modifier>    
+            </fa-view>    
+        </fa-scroll-view>    
     </fa-modifier>
     <fa-modifier fa-translate="vm.profileView.get()">
         <fa-surface fa-background-color="'#009933'">
-            Profile
+            <input type="text" ng-model="vm.inputAddress" ng-change="vm.inputChange()"></input>
+            <div ng-repeat="city in vm.searchbarPredictions" ng-click="vm.getDetails(city.place_id)">
+               {{city.description}}
+            </div>
+            <div>
+                {{vm.placeDetails}}
+            </div>
             <button ng-click="vm.backToMapFromProfile()">Back to map</button>
         </fa-surface>
     </fa-modifier>
@@ -52,20 +63,14 @@
             </div>
         </fa-surface>
     </fa-modifier>
-    <fa-modifier fa-size="[100, 35]" fa-translate="vm.nextButton.get()">
+    <fa-modifier fa-size="[0.35 * vm.windowWidth, 0.08 * vm.windowHeight]" fa-translate="vm.nextButton.get()">
         <fa-surface fa-background-color="'#FF0033'" fa-color="'#fff'" fa-click="vm.goToNext()">
-        Next
+        {{vm.nextContent}}
         </fa-surface>
     </fa-modifier>
-    <fa-modifier fa-size="[100, 35]" fa-translate="vm.aboutButton.get()">
+    <fa-modifier fa-size="[0.35 * vm.windowWidth, 0.08 * vm.windowHeight]" fa-translate="vm.aboutButton.get()">
         <fa-surface fa-background-color="'#66CC99'" fa-color="'#fff'">
         Introduce me
-        </fa-surface>
-    </fa-modifier>
-    <fa-modifier fa-translate="vm.oopsie.get()">
-        <fa-surface fa-background-color="'#999900'">
-            Oopsie !
-            <button ng-click="vm.backToMapFromVideo()">Back to Map</button>
         </fa-surface>
     </fa-modifier>
 </fa-app>
