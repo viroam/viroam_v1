@@ -1,0 +1,73 @@
+<fa-app id="houseProfileView">
+  	
+		<fa-surface fa-size="[undefined, undefined]">
+			<div id="houseProfileBackground"></div>
+		</fa-surface>
+
+  		<fa-modifier fa-origin="[0.5, 0]"
+  					 fa-translate="[vm.windowWidth / 2, vm.windowHeight / 20]"
+  					 fa-opacity="1">	
+  			<fa-surface fa-size="[5 * vm.windowWidth / 6, vm.windowHeight / 10]"
+  						fa-background-color="vm.undefinedColor"
+  						fa-properties="vm.inputZoneProperties">
+  						<!-- the use of vm.undefinedColor allow the surface to be transparent -->
+  				Adress :
+  			</fa-surface>
+		</fa-modifier>
+
+		<fa-modifier fa-origin="[0.5, 0]"
+	              	 fa-translate="[vm.windowWidth / 2, vm.windowHeight / 5]"
+	              	 fa-opacity="1">	
+  			<fa-surface fa-size="[5 * vm.windowWidth / 6, vm.windowHeight / 10]" 
+  						fa-background-color="vm.undefinedColor"
+  						fa-properties="vm.inputZoneProperties">
+  						<!-- the use of vm.undefinedColor allow the surface to be transparent -->
+  				Price : £
+  				<input ng-model="vm.price" id="houseProfilePrice" ng-style="vm.priceStyle" maxlength="6"></input>
+  				pw
+  			</fa-surface>
+		</fa-modifier>
+
+		<fa-modifier fa-origin="[0.5, 0]"
+	              	 fa-translate="[vm.windowWidth / 2, 7 * vm.windowHeight / 20]"
+	              	 fa-opacity="1">	
+  			<fa-surface fa-size="[5 * vm.windowWidth / 6, vm.windowHeight / 5]" 
+  						fa-background-color="vm.undefinedColor"
+  						fa-properties="vm.inputZoneProperties">
+  						<!-- the use of vm.undefinedColor allow the surface to be transparent -->
+  				Availability : 
+  				<br>
+  				From :
+  				<input ng-model="vm.startDate" type="date" ng-style="vm.dateStyle">
+  				<br>
+  				To :
+  				<input ng-model="vm.endDate" type="date" ng-style="vm.dateStyle">
+  			</fa-surface>
+		</fa-modifier>
+
+		<fa-modifier fa-origin="[0.5, 0]"
+	              	 fa-translate="[vm.windowWidth / 2, 12 * vm.windowHeight / 20]"
+	              	 fa-opacity="1">	
+  			<fa-surface fa-size="[5 * vm.windowWidth / 6, vm.windowHeight / 5]" 
+  						fa-background-color="vm.undefinedColor"
+  						fa-properties="vm.inputZoneProperties">
+  						<!-- the use of vm.undefinedColor allow the surface to be transparent -->
+  				Roommates :
+  			</fa-surface>
+		</fa-modifier>
+
+		<fa-modifier fa-origin="[0.5, 0]"
+	              	 fa-translate="[vm.windowWidth / 2, 17 * vm.windowHeight / 20]"
+	              	 fa-opacity="1">	
+  			<fa-surface fa-size="[5 * vm.windowWidth / 6, vm.windowHeight / 10]" 
+  						fa-background-color="vm.buttonColor"
+  						fa-properties="vm.inputButtonProperties"
+  						fa-touchstart="vm.activeButton()"
+  						fa-touchend="vm.desactiveButton()"
+  						fa-click="vm.submitHouse()">
+  						Send
+  			</fa-surface>
+		</fa-modifier>
+
+  	<!-- </fa-surface> -->
+</fa-app>

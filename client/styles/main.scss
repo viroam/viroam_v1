@@ -129,3 +129,23 @@ input[type="range"]::-webkit-slider-runnable-track {
     color: #fff;
     background: url(../images/penthouseny.jpeg);
 }
+
+/*CSS of houseProfile*/
+
+#houseProfileView {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#houseProfileBackground{
+	background: url(../images/blurBackground.jpg);
+	height: 667px;
+	/*width: 300px;*/
+}
+
+/*#houseProfilePrice{
+	width
+}*/
