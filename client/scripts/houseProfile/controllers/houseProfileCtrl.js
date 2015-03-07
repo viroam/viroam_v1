@@ -5,9 +5,10 @@ module.exports = function(app) {
     /*jshint validthis: true */
 
     var databroker = require('../../databroker')(app.name.split('.')[0]).name;
+    var searchbar = require('../../map')(app.name.split('.')[0]).name;
     var deps = ['$rootScope', databroker + '.apartments'];
 
-    function controller($rootScope, apartments) {
+    function controller($rootScope, apartments, searchbar) {
 
         var vm = this;
 
@@ -26,14 +27,20 @@ module.exports = function(app) {
             fontWeight: 'bold'
         };
         vm.priceStyle = {
-            width: vm.windowWidth / 8 + 'px'
+            width: vm.windowWidth / 8 + 'px',
+            background: 'transparent',
+            border: '0px',
+            fontSize: '1.3em',
+            textAlign: 'right'
         };
 
         vm.price = '180';
 
         vm.dateStyle = {
-            width: 2 * vm.windowWidth / 5 + 'px',
-            display: 'inline'
+            width: vm.windowWidth / 2 + 'px',
+            display: 'inline',
+            background: 'transparent',
+            fontSize: '1em'
         };
 
         vm.startDate = new Date();
@@ -62,6 +69,10 @@ module.exports = function(app) {
         vm.submitHouse = function() {
             apartments.createApartment(houseIndex, 20, 30, vm.startDate, vm.endDate, vm.price);
             houseIndex++;
+        };
+
+        vm.updateAdresse = function(address) {
+            
         };
     }
 

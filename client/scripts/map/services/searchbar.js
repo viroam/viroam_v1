@@ -15,8 +15,9 @@ module.exports = function(app) {
             return _autocompleteService;
         };
 
-        var getAdresses = function(address) {
-
+        var getAddresses = function(address) {
+            //take a string and return a promise which data is an array of Objects
+            //these Object contains the address and other properties (adress in the property .description)
             var deferred = $q.defer();
 
             var request = {
@@ -50,7 +51,9 @@ module.exports = function(app) {
             return _placeService;
         };
 
-        var getAdressDetails = function(placeId) {
+        var getAddressDetails = function(placeId) {
+            //take the place_id of an object returned by getAdress(...) and return an objetc
+            //with details on it
             var deferred = $q.defer();
             var request = {
                 placeId: placeId
@@ -74,8 +77,8 @@ module.exports = function(app) {
             return deferred.promise;
         };
         return {
-            getAdresses: getAdresses,
-            getAdressDetails: getAdressDetails
+            getAddresses: getAddresses,
+            getAddressDetails: getAddressDetails
         };
 
     }

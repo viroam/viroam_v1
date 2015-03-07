@@ -31,7 +31,7 @@ var run = function($window, $kinvey, $state, $famous, $rootScope) {
     }).then(function() {
 
         if(!$kinvey.getActiveUser()) {
-            $kinvey.User.login('Username', 'Password').then(function(){
+            $kinvey.User.login('Username', 'Password').then(function() {
                 $state.go('map');
             });
         } else {
