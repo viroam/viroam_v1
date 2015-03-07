@@ -19,16 +19,7 @@ module.exports = function(namespace) {
 
     app.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise('/');
-            $stateProvider.state('login', {
-                url: '/',
-                template: require('./views/login.html')
-            }).state('apartment', {
-                url: '/apartment',
-                template: require('./views/apartment.html'),
-                controller: fullname + '.apartmentsCtrl',
-                controllerAs: 'vm'
-            });
+
         }
     ]);
 

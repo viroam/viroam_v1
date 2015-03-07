@@ -4,9 +4,9 @@ var controllername = 'mapCtrl';
 module.exports = function(app) {
     /*jshint validthis: true */
     var databroker = require('../../databroker')(app.name.split('.')[0]).name;
-    var deps = [app.name + '.searchbar', databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout', '$famous', '$rootScope'];
+    var deps = [app.name + '.searchbar', databroker + '.apartments', 'uiGmapGoogleMapApi', '$scope', '$timeout', '$famous', '$rootScope', '$cordovaCapture'];
 
-    function controller(searchbar, apartments, uiGmapGoogleMapApi, $scope, $timeout, $famous, $rootScope) {
+    function controller(searchbar, apartments, uiGmapGoogleMapApi, $scope, $timeout, $famous, $rootScope, $cordovaCapture) {
         var vm = this;
 
         vm.windowWidth = $rootScope.windowWidth;
@@ -23,6 +23,17 @@ module.exports = function(app) {
         vm.aboutButton = new Transitionable([1.65 * vm.windowWidth, 0.80 * vm.windowHeight, 1000]);
 
         vm.myEventHandler = new EventHandler();
+
+
+        vm.recordVideo=function(){
+           var options = { limit: 3, duration: 15 };
+
+            $cordovaCapture.captureVideo(options).then(function(videoData) {
+              // Success! Video data is here
+            }, function(err) {
+              // An error occurred. Show a message to the user
+            });
+        };
 
         vm.views = [{
             color: 'red'
@@ -216,6 +227,11 @@ module.exports = function(app) {
                     vm.map.zoom = 8;
                 }
             }
+        };
+
+        vm.searchBarStyle = {
+            width: 0.75 * vm.windowWidth + 'px',
+            height: 0.05 * vm.windowHeight + 'px'
         };
 
         vm.circle = {

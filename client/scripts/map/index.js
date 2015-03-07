@@ -24,6 +24,7 @@ module.exports = function(namespace) {
     ]);
     // inject:folders start
     require('./controllers')(app);
+    require('./directives')(app);
     require('./services')(app);
     // inject:folders end
 
@@ -37,7 +38,10 @@ module.exports = function(namespace) {
             });
 
             $urlRouterProvider.otherwise('/');
-            $stateProvider.state('map', {
+            $stateProvider.state('login', {
+                url: '/',
+                template: require('./views/login.html')
+            }).state('map', {
                 url: '/map',
                 template: require('./views/map.html'),
                 controller: fullname + '.mapCtrl',

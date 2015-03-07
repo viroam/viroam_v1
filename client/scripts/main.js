@@ -7,7 +7,6 @@ require('kinvey-angular');
 var app = angular.module(namespace, [
     'kinvey',
     // inject:modules start
-    require('./chat')(namespace).name,
     require('./databroker')(namespace).name,
         require('./houseProfile')(namespace).name,
         require('./map')(namespace).name
@@ -32,10 +31,11 @@ var run = function($window, $kinvey, $state, $famous, $rootScope) {
     }).then(function() {
 
         if(!$kinvey.getActiveUser()) {
-            $kinvey.User.login('Username', 'Password');
-            $state.go('houseProfile');
+            $kinvey.User.login('Username', 'Password').then(function(){
+                $state.go('map');
+            });
         } else {
-            $state.go('houseProfile');
+            $state.go('map');
         }
 
     });
