@@ -18,7 +18,7 @@
                 </ui-gmap-marker>
             </ui-gmap-google-map>
             <img src="images/icon-pink.png" alt="" id="fixedmarker">
-            <div ng-class="{button: vm.buttonstatus=='visible'}" ng-click="vm.goToVideo()">{{vm.infoButton}}</div>
+            <div ng-class="{button: vm.buttonstatus=='visible'}" ng-click="vm.recordVideo()">{{vm.infoButton}}</div>
             <div class="range">
                 <input type="range" min="0" max="2000" ng-model="vm.price">
                 £ {{vm.price}} pm
@@ -45,7 +45,7 @@
     </fa-modifier>
     <fa-modifier fa-translate="vm.profileView.get()">
         <fa-surface fa-background-color="'#009933'">
-            <input type="text" ng-model="vm.inputAddress" ng-change="vm.inputChange()"></input>
+            <input type="text" placeholder="Search for a city" ng-style="vm.searchBarStyle" ng-model="vm.inputAddress" ng-change="vm.inputChange()">
             <div ng-repeat="city in vm.searchbarPredictions" ng-click="vm.getDetails(city.place_id)">
                {{city.description}}
             </div>
