@@ -32,10 +32,10 @@ var run = function($window, $kinvey, $state, $famous, $rootScope) {
 
         if(!$kinvey.getActiveUser()) {
             $kinvey.User.login('Username', 'Password').then(function() {
-                $state.go('map');
+                $state.go('houseProfile');
             });
         } else {
-            $state.go('map');
+            $state.go('houseProfile');
         }
 
     });

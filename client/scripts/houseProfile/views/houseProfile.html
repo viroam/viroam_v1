@@ -5,14 +5,26 @@
 		</fa-surface>
 
   		<fa-modifier fa-origin="[0.5, 0]"
-  					 fa-translate="[vm.windowWidth / 2, vm.windowHeight / 20]"
+  					 fa-translate="[vm.windowWidth / 2, vm.windowHeight / 20, 1]"
   					 fa-opacity="1">	
   			<fa-surface fa-size="[5 * vm.windowWidth / 6, vm.windowHeight / 10]"
   						fa-background-color="vm.undefinedColor"
   						fa-properties="vm.inputZoneProperties">
   						<!-- the use of vm.undefinedColor allow the surface to be transparent -->
   				Address :
-  				<input ng-model="vm.address" maxlength="30"></input>
+  				<input ng-model="vm.address" 
+                 maxlength="30" 
+                 ng-style="vm.addressStyle"
+                 ng-change="vm.updateAddress()">
+          <div ng-repeat="address in vm.addressList"
+               ng-style="vm.addressListStyle"
+               ng-show="vm.address.length && vm.showAddresses"
+               ng-click="vm.addressClick(address)">
+            {{address.description}}
+          </div>
+          <!-- <div>
+            [{{vm.location.longitude}},{{vm.location.latitude}}]
+          </div> -->
   			</fa-surface>
 		</fa-modifier>
 
@@ -24,7 +36,7 @@
   						fa-properties="vm.inputZoneProperties">
   						<!-- the use of vm.undefinedColor allow the surface to be transparent -->
   				Price : £
-  				<input ng-model="vm.price" id="houseProfilePrice" ng-style="vm.priceStyle" maxlength="6"></input>
+  				<input ng-model="vm.price" id="houseProfilePrice" ng-style="vm.priceStyle" maxlength="5"></input>
   				pw
   			</fa-surface>
 		</fa-modifier>

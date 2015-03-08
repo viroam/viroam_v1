@@ -16,8 +16,8 @@ module.exports = function(app) {
         };
 
         var getAddresses = function(address) {
-            //take a string and return a promise which data is an array of Objects
-            //these Object contains the address and other properties (adress in the property .description)
+            //take a string and return a promise which data is an array of 5 Objects
+            //these Objects contain the address and other properties (adress in the property .description)
             var deferred = $q.defer();
 
             var request = {
