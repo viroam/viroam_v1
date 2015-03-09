@@ -31,11 +31,11 @@ var run = function($window, $kinvey, $state, $famous, $rootScope) {
     }).then(function() {
 
         if(!$kinvey.getActiveUser()) {
-            $kinvey.User.login('Username', 'Password').then(function(){
-                $state.go('map');
+            $kinvey.User.login('Username', 'Password').then(function() {
+                $state.go('houseProfile');
             });
         } else {
-            $state.go('map');
+            $state.go('houseProfile');
         }
 
     });

@@ -24,9 +24,8 @@ module.exports = function(app) {
 
         vm.myEventHandler = new EventHandler();
 
-
-        vm.recordVideo=function(){
-           var options = { limit: 3, duration: 15 };
+        vm.recordVideo = function() {
+            var options = { limit: 3, duration: 15 };
 
             $cordovaCapture.captureVideo(options).then(function(videoData) {
               // Success! Video data is here
