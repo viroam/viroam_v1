@@ -6,9 +6,9 @@ module.exports = function(app) {
 
     var databroker = require('../../databroker')(app.name.split('.')[0]).name;
     var searchbar = require('../../map')(app.name.split('.')[0]).name;
-    var deps = ['$rootScope', databroker + '.apartments', searchbar + '.searchbar'];
+    var deps = ['$rootScope', '$famous', databroker + '.apartments', searchbar + '.searchbar'];
 
-    function controller($rootScope, apartments, searchbar) {
+    function controller($rootScope, $famous, apartments, searchbar) {
 
         var vm = this;
 
@@ -117,6 +117,7 @@ module.exports = function(app) {
             }, function() {
             });
         };
+
     }
 
     controller.$inject = deps;
