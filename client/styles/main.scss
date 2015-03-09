@@ -142,7 +142,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   left: 0;
 }
 
-#houseProfileBackground{
+#houseProfileBackground {
 	background: url(../images/blurBackground.jpg);
 	height: 667px;
 	/*width: 300px;*/
@@ -151,3 +151,10 @@ input[type="range"]::-webkit-slider-runnable-track {
 /*#houseProfilePrice{
 	width
 }*/
+
+/*CSS of loginFacebook*/
+#loginBackgroundStyle {
+    background: url(../images/blurBackground.jpg);
+    height: 667px;
+
+}
