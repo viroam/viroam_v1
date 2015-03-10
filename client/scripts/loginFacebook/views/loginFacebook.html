@@ -1,5 +1,70 @@
 <fa-app id="loginBackgroundStyle">
 	
-	
+	<fa-modifier fa-origin="[0.5, 0]"
+				 fa-align="[0.5, 0]"
+				 fa-translate="[0, 20, 0]">
+		<fa-surface fa-size ="[undefined, 70]"
+					fa-properties = "vm.nameProperties">
+			Name: {{vm.userName}} <br>
+			Email: {{vm.email}} <br>
+			Gender: {{vm.gender}}
+		</fa-surface>
+	<fa-modifier>
 
+
+	<fa-modifier fa-origin = "[0.5, 0]"
+				 fa-align = "[0.5, 0]"
+				 fa-translate = "[0, 100, 0]">
+		<fa-surface fa-size = "[100, 30]"
+					fa-properties = "vm.buttonProperties">
+			<button ng-click="vm.displayUserInfos()">
+			displayUserInfos
+			</button>
+		</fa-surface>
+	<fa-modifier>
+
+	<fa-modifier fa-origin = "[0.5, 0]"
+				 fa-align = "[0.5, 0]"
+				 fa-translate = "[0, 70, 0]">
+		<fa-surface fa-size = "[100, 30]"
+					fa-properties = "vm.buttonProperties">
+			<button ng-click = "vm.cordovaFacebookLogout()">
+			cordovaFacebookLogout
+			</button>
+		</fa-surface>
+	<fa-modifier>
+
+	<fa-modifier fa-origin = "[0.5, 0]"
+				 fa-align = "[0.5, 0]"
+				 fa-translate = "[0, 70, 0]">
+		<fa-surface fa-size = "[100, 30]"
+					fa-properties = "vm.buttonProperties">
+			<button ng-click = "vm.kinveyLogout()">
+			kinveyLogout
+			</button>
+		</fa-surface>
+	<fa-modifier>
+
+	<fa-modifier fa-origin = "[0.5, 0]"
+				 fa-align = "[0.5, 0]"
+				 fa-translate = "[0, 70, 0]">
+		<fa-surface fa-size = "[100, 30]"
+					fa-properties = "vm.buttonProperties">
+			<button ng-click = "vm.cordovaFacebookLogin()">
+			cordovaFacebookLogin
+			</button>
+		</fa-surface>
+	<fa-modifier>
+
+	<fa-modifier fa-origin = "[0.5, 0]"
+				 fa-align = "[0.5, 0]"
+				 fa-translate = "[0, 70, 0]">
+		<fa-surface fa-size = "[100, 30]"
+					fa-properties = "vm.buttonProperties">
+			<button ng-click = "vm.kinveyGetActiveUser()">
+			kinveyGetActiveUser
+			</button>
+		</fa-surface>
+	<fa-modifier>
+				
 </fa-app>
