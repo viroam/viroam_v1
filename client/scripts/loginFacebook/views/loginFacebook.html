@@ -1,5 +1,13 @@
 <fa-app id="loginBackgroundStyle">
 	
+	
+	<fa-modifier fa-translate="[0, 90, 2]"
+				 fa-properties="vm.photoProperties">
+		<fa-image-surface fa-image-url={{vm.pictureUrl}}
+						  fa-size="[100, 130]">
+		</fa-image-surface>	
+	</fa-modifier>
+
 	<fa-modifier fa-origin="[0.5, 0]"
 				 fa-align="[0.5, 0]"
 				 fa-translate="[0, 20, 0]">
@@ -63,6 +71,17 @@
 					fa-properties = "vm.buttonProperties">
 			<button ng-click = "vm.kinveyGetActiveUser()">
 			kinveyGetActiveUser
+			</button>
+		</fa-surface>
+	<fa-modifier>
+
+	<fa-modifier fa-origin = "[0.5, 0]"
+				 fa-align = "[0.5, 0]"
+				 fa-translate = "[0, 70, 0]">
+		<fa-surface fa-size = "[100, 30]"
+					fa-properties = "vm.buttonProperties">
+			<button ng-click = "vm.api()">
+			api
 			</button>
 		</fa-surface>
 	<fa-modifier>
