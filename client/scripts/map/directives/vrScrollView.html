@@ -1,0 +1,12 @@
+<fa-container-surface fa-options="{properties: {overflow: 'hidden'}}">
+    <fa-scroll-view fa-pipe-from="vrScrollViewCtrl.myEventHandler" fa-options="vrScrollViewCtrl.videoScrollView.options">
+        <fa-view ng-repeat="video in vrScrollViewCtrl.videos">
+            <fa-modifier fa-size="[undefined, 550]">
+                <fa-surface fa-pipe-to="vrScrollViewCtrl.myEventHandler">
+                    <video id="{{video.id}}" ng-src="{{video.idsrc}}" ng-style="{{video.style}}" ng-click="vm.playPause(video.id)" webkit-playsinline>
+                    </video>
+                </fa-surface>
+            </fa-modifier>
+        </fa-view>
+    </fa-scroll-view>
+</fa-container-surface>
