@@ -28,8 +28,10 @@ module.exports = function(namespace) {
     require('./services')(app);
     // inject:folders end
 
-    app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider',
-        function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
+    app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', '$sceProvider',
+        function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider, $sceProvider) {
+
+            $sceProvider.enabled(false);
 
             uiGmapGoogleMapApiProvider.configure({
                 key: 'AIzaSyDVC1rjvZ-w-OscxPCp6EMZomcbE-xLOOY',

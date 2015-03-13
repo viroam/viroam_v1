@@ -8,10 +8,10 @@ module.exports = function(app) {
     var controllerDeps = ['$state', '$rootScope'];
     var controller = function($state, $rootScope) {
         var secureCtrl = this;
-        var initialised=false;
-        $rootScope.$on('$stateChangeStart', function(e, toState){
-            if(!initialised){
-                initialised=true;
+        var initialised = false;
+        $rootScope.$on('$stateChangeStart', function(e, toState) {
+            if(!initialised) {
+                initialised = true;
                 e.preventDefault();
                 $state.go('login');
             }
@@ -20,7 +20,6 @@ module.exports = function(app) {
         secureCtrl.directivename = directivename;
     };
     controller.$inject = controllerDeps;
-    
     /*eslint-disable consistent-this */
 
     // directive

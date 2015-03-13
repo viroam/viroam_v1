@@ -22,27 +22,50 @@
 }
 /* CSS DE LA MAP*/
 
+.angular-google-map {
+    position: relative;
+    top:0;
+    width: 100%;
+    height: 87.5%;
+}
 .angular-google-map-container {
-    height: 610px;
+    position: relative;
+    width: 100%;
+    height: 100%
 }
 .gm-style-cc {
     display: none;
 }
 .header {
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 12.5%;
     background-color: grey;
     color: white;
     text-align: center;
     line-height: 60px;
     font-size: 30px;
 }
-#fixedmarker {
+
+.circle-container {
+    
+}
+#fixed-marker {
     position: absolute;
-    left: 47.8%;
-    top: 48%;
+    top: 56.25%;
+    left: 49.99999%;
+    margin-left: -10px;
+    margin-top: -45px;
+}
+#fixed-circle {
+    position: absolute;
+    top: 56.25%;
+    left: 49.99999%;
+    margin-top: -50px;
+    margin-left: -50px;
+
 }
 .button {
     position: absolute;

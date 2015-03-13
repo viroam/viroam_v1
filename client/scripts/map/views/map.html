@@ -1,6 +1,6 @@
 <fa-app id="mainContextMapChatProfile">
     <fa-modifier fa-translate="vm.mapView.get()">
-        <fa-surface>
+        <fa-surface class="full-height">
             <header class="header">
                 <button ng-click="vm.goToProfile()">Profile</button>
                 Viroam
@@ -14,21 +14,23 @@
                 </ui-gmap-search-box>
                 <ui-gmap-circle center="vm.circle.center" radius="vm.circle.radius" fill="vm.circle.fill" stroke="vm.circle.stroke" events="vm.circle.events" visible="vm.circle.visible">
                 </ui-gmap-circle>
-                <ui-gmap-marker ng-repeat="marker in vm.coordsArray" idKey="marker.id" coords="marker.coords">
-                </ui-gmap-marker>
+                <!-- <ui-gmap-marker ng-repeat="marker in vm.coordsArray" idKey="marker.id" coords="marker.coords">
+                </ui-gmap-marker> -->
             </ui-gmap-google-map>
-            <img src="images/icon-pink.png" alt="" id="fixedmarker">
-            <div ng-class="{button: vm.buttonstatus=='visible'}" ng-click="vm.recordVideo()">{{vm.infoButton}}</div>
-            <div class="range">
-                <input type="range" min="0" max="2000" ng-model="vm.price">
-                £ {{vm.price}} pm
+            <!-- <img src="images/icon-pink.png" alt="" id="fixed-marker">
+            <div class="circle-container">
+                <img src="images/cercle.png" alt="" ng-style="vm.circleStyle">
             </div>
-            <div class="button-radius-more" ng-click="vm.riseRadius()">
+            <div ng-class="{button: vm.buttonstatus=='visible'}" ng-click="vm.goToVideo()">{{vm.infoButton}}</div>
+            <div class="range">
+                <input type="range" min="0" max="2000" ng-model="vm.price"> £ {{vm.price}} pm
+            </div>
+            <div class="button-radius-more" ng-click="vm.riseRadiusCircle()">
                 +
             </div>
-            <div class="button-radius-less" ng-click="vm.lowRadius()">
+            <div class="button-radius-less" ng-click="vm.lowRadiusCircle()">
                 -
-            </div>
+            </div> -->
         </fa-surface>
     </fa-modifier>
     <fa-modifier fa-translate="vm.chatView.get()">
@@ -38,16 +40,33 @@
                     <fa-surface fa-background-color="view.color" fa-pipe-to="vm.myEventHandler">
                         Chat
                         <button ng-click="vm.backToMapFromChat()">Back to map</button>
+                        <button ng-click="vm.createApartment()">Create Apartment</button>
+                        <button ng-click="vm.getApartmentsToDisplay()">Get Apartment To Display</button>
+                        <button ng-click="vm.clickPinPoint()">Je click sur le pinpoint</button>
+                        <button ng-click="vm.jeMateLaVideo()">Je mate la video</button>
+                        <button ng-click="vm.getChatConversionsForSearchers()">Get Chat Conversions For Searchers</button>
+                        <button ng-click="vm.getArrayOfApartmentsInCircleForSearchers()">Get Array of Apartments in circle for Searchers</button>
+                        <button ng-click="vm.getApartmentsSeenBySearchersEntity()">Get Apartment Seen By searcher Entity</button>
+                        <button ng-click="vm.updateApartmentsSeenBySearchers()">Mettre à jour les apparts vus par notre searcher</button>
+                        <button ng-click="vm.createUser()">Create a user</button>
+                        <button ng-click="vm.updateApartmentsApplied()">Update apartment applied</button>
+                        <button ng-click="vm.updateApplicants()">Update aplicants</button>
+                        <button ng-click="vm.getChatConversionsForSearchers()">Get chat conversation for searchers</button>
+                        <button ng-click="vm.getApplicantsFromApartmentsApplied()">Get Applicants</button>
+                        <button ng-click="vm.getVideoFromApplicantsToBeDisplayed()">Get Videos from applicants to be displayed</button>
+                        <button ng-click="vm.associateVideoPerso()">Associate video perso to jean stek</button>
+                        <button ng-click="vm.updateApartmentsAppliedSeenBy()">Update apartments seen by</button>
+                        <button ng-click="vm.updateChannel()">Update Channel</button>
                     </fa-surface>
-                </fa-modifier>    
-            </fa-view>    
-        </fa-scroll-view>    
+                </fa-modifier>
+            </fa-view>
+        </fa-scroll-view>
     </fa-modifier>
-    <fa-modifier fa-translate="vm.profileView.get()">
+    <!-- <fa-modifier fa-translate="vm.profileView.get()">
         <fa-surface fa-background-color="'#009933'">
             <input type="text" placeholder="Search for a city" ng-style="vm.searchBarStyle" ng-model="vm.inputAddress" ng-change="vm.inputChange()">
             <div ng-repeat="city in vm.searchbarPredictions" ng-click="vm.getDetails(city.place_id)">
-               {{city.description}}
+                {{city.description}}
             </div>
             <div>
                 {{vm.placeDetails}}
@@ -55,22 +74,23 @@
             <button ng-click="vm.backToMapFromProfile()">Back to map</button>
         </fa-surface>
     </fa-modifier>
-    <fa-modifier ng-repeat="video in vm.videos" fa-translate="video.translate.get()">
-        <fa-surface>
-             <div class="video-responsive">
-                {{video.name}}
-                <button ng-click="vm.backToMapFromVideo()">Back to Map</button>
-            </div>
+    <fa-modifier fa-translate="vm.videoView.get()">
+        <vr-scroll-view videos="vm.videos">
+        </vr-scroll-view>
+    </fa-modifier>
+    <fa-modifier fa-size="[0.35 * vm.windowWidth, 0.08 * vm.windowHeight]" fa-translate="vm.backButton.get()">
+        <fa-surface fa-background-color="'#66CC99'" fa-color="'#fff'" fa-click="vm.backToMapFromVideo()">
+            Back To Map
         </fa-surface>
     </fa-modifier>
     <fa-modifier fa-size="[0.35 * vm.windowWidth, 0.08 * vm.windowHeight]" fa-translate="vm.nextButton.get()">
         <fa-surface fa-background-color="'#FF0033'" fa-color="'#fff'" fa-click="vm.goToNext()">
-        {{vm.nextContent}}
+            {{vm.nextContent}}
         </fa-surface>
     </fa-modifier>
     <fa-modifier fa-size="[0.35 * vm.windowWidth, 0.08 * vm.windowHeight]" fa-translate="vm.aboutButton.get()">
-        <fa-surface fa-background-color="'#66CC99'" fa-color="'#fff'">
-        Introduce me
+        <fa-surface fa-background-color="'#66CC99'" fa-color="'#fff'" fa-click="vm.recordVideo()">
+            Introduce me
         </fa-surface>
-    </fa-modifier>
+    </fa-modifier> -->
 </fa-app>
