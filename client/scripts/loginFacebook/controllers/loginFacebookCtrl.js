@@ -55,7 +55,6 @@ module.exports = function(app) {
             vm.userName = infos.userName;
             vm.email = infos.email;
             vm.gender = infos.gender;
-            // vm.pictureUrl = 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/v/t1.0-1/p200x200/943006_10151628370874406_1534687560_n.jpg?oh=308a64abea34324c6fb4c1b4dd8d5b7c&oe=558FCEB1&__gda__=1434236993_1588ac72b0cab5217a22c71d64206e19';
             loginFb.getPictureUrl().then(function(response) {
                 vm.pictureUrl = response.data.url;
             });
